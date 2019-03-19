@@ -17,6 +17,7 @@ args = parser.parse_args()
 
 model = face_model.FaceModel(args)
 img = cv2.imread('Tom_Hanks_54745.png')
+print(img.shape)
 img = model.get_input(img)
 #f1 = model.get_feature(img)
 #print(f1[0:10])
