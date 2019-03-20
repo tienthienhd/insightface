@@ -32,8 +32,8 @@ labels = []
 for i,row in train.iterrows():
     image_path = '/content/data/train/' + row['image']
     label = row['label']
-    if i == 100:
-        print('Extracted 100 image')
+    if i % 100 == 0:
+        print('Extracted {} image'.format(i))
 
     try:
         img = cv2.imread(image_path)
