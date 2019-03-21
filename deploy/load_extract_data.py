@@ -7,7 +7,7 @@ import numpy as np
 
 
 
-train = pd.read_csv('../../vn_celeb_face_recognition/train.csv')
+train = pd.read_csv('/content/data/train.csv')
 # print(train.head())
 
 
@@ -30,7 +30,7 @@ images = []
 labels = []
 
 for i,row in train.iterrows():
-    image_path = '../../vn_celeb_face_recognition/train/' + row['image']
+    image_path = '/content/data/train/' + row['image']
     label = row['label']
 
     try:
