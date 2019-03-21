@@ -101,7 +101,7 @@ class FaceModel:
         embedding = sklearn.preprocessing.normalize(embedding)
         return embedding
 
-    def get_features_train(self, folder_image, train_csv, batch_size=512):
+    def get_features_train(self, folder_image, train_csv, batch_size=64):
         train = pd.read_csv(train_csv)
         images = []
         features = None
@@ -132,7 +132,7 @@ class FaceModel:
         labels = np.array(labels)
         return features, labels
 
-    def get_features_test(self, folder_image, batch_size=512):
+    def get_features_test(self, folder_image, batch_size=64):
         test_paths = glob.glob(folder_image + '*.png')
         images = []
         file_names = []
