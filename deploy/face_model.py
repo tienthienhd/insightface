@@ -89,9 +89,9 @@ class FaceModel:
   def get_feature(self, aligned):
     # print('start get features:',aligned.shape)
     input_blob = np.expand_dims(aligned, axis=0)
-    # print('input blob:',input_blob.shape)
+    print('input blob:',input_blob.shape)
     data = mx.nd.array(input_blob)
-    # print('data:', data.shape)
+    print('data:', data.shape)
     db = mx.io.DataBatch(data=(data,))
     self.model.forward(db, is_train=False)
     embedding = self.model.get_outputs()[0].asnumpy()
