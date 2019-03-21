@@ -19,7 +19,7 @@ args = parser.parse_args()
 
 model = face_model.FaceModel(args)
 
-test_images = glob.glob('/content/data//test/*.png')
+test_images = glob.glob('/content/data/test/*.png')
 n_per_file = 5000
 
 images = []
@@ -30,11 +30,11 @@ for i, img_path in enumerate(test_images):
     f1 = model.get_feature(img_input)
     images.append(f1)
     if i % n_per_file == 0:
-        file_name = '{}s_to_{}'.format(n_per_file, i)
+        file_name = '/content/test_features/{}s_to_{}'.format(n_per_file, i)
         np.save(file_name, np.array(images))
         images.clear()
 
 if len(images) > 0:
-    file_name = '{}s_to_{}'.format(n_per_file, len(test_images))
+    file_name = '/content/test_features/{}s_to_{}'.format(n_per_file, len(test_images))
     np.save(file_name, np.array(images))
     images.clear()
