@@ -7,7 +7,7 @@ import numpy as np
 
 
 
-train = pd.read_csv('/content/data/train.csv')
+train = pd.read_csv('../../vn_celeb_face_recognition/train.csv')
 # print(train.head())
 
 
@@ -30,10 +30,8 @@ images = []
 labels = []
 
 for i,row in train.iterrows():
-    image_path = '/content/data/train/' + row['image']
+    image_path = '../../vn_celeb_face_recognition/train/' + row['image']
     label = row['label']
-    if i % 100 == 0:
-        print('Extracted {} image'.format(i))
 
     try:
         img = cv2.imread(image_path)
@@ -45,5 +43,5 @@ for i,row in train.iterrows():
     except Exception:
         print(image_path, label)
 
-np.save('/content/pretrain_model/features', np.array(images))
-np.save('/content/pretrain_model/labels', np.array(labels))
+np.save('features', np.array(images))
+np.save('labels', np.array(labels))

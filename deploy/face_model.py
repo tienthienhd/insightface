@@ -71,10 +71,12 @@ class FaceModel:
   def get_input(self, face_img):
     ret = self.detector.detect_face(face_img, det_type = self.args.det)
     if ret is None:
-      return None
+      return np.transpose(cv2.cvtColor(cv2.resize(face_img, (112, 112)), cv2.COLOR_BGR2RGB), (2,0,1))
+      # return None
     bbox, points = ret
     if bbox.shape[0]==0:
-      return None
+      return np.transpose(cv2.cvtColor(cv2.resize(face_img, (112, 112)), cv2.COLOR_BGR2RGB), (2,0,1))
+      # return None
     bbox = bbox[0,0:4]
     points = points[0,:].reshape((2,5)).T
     #print(bbox)
@@ -85,8 +87,11 @@ class FaceModel:
     return aligned
 
   def get_feature(self, aligned):
+    # print('start get features:',aligned.shape)
     input_blob = np.expand_dims(aligned, axis=0)
+    # print('input blob:',input_blob.shape)
     data = mx.nd.array(input_blob)
+    # print('data:', data.shape)
     db = mx.io.DataBatch(data=(data,))
     self.model.forward(db, is_train=False)
     embedding = self.model.get_outputs()[0].asnumpy()
