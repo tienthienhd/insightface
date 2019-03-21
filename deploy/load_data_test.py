@@ -19,7 +19,7 @@ args = parser.parse_args()
 
 model = face_model.FaceModel(args)
 
-test_images = glob.glob('../../../vn_celeb_face_recognition/test/*.png')
+test_images = glob.glob('/content/data//test/*.png')
 n_per_file = 5000
 
 images = []
