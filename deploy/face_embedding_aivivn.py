@@ -179,7 +179,7 @@ args = parser.parse_args()
 
 a = FaceModel(args)
 
-features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train/train.csv')
+features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train.csv')
 print(features.shape, labels.shape)
 np.save(args.embedding_folder + 'features_train', features)
 np.save(args.embedding_folder + 'labels_train', labels)
