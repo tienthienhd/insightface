@@ -122,6 +122,7 @@ class FaceModel:
                 else:
                     features = np.concatenate((features, feature_batch), axis=0)
                 images.clear()
+        feature_batch = self.get_features(images)
         if len(images) > 0:
             if len(train) > batch_size:
                 features = np.concatenate((features, feature_batch), axis=0)
@@ -150,6 +151,7 @@ class FaceModel:
                 else:
                     features = np.concatenate((features, feature_batch), axis=0)
                 images.clear()
+        feature_batch = self.get_features(images)
         if len(images) > 0:
             if len(test_paths) > batch_size:
                 features = np.concatenate((features, feature_batch), axis=0)
@@ -175,11 +177,12 @@ parser.add_argument('--flip', default=0, type=int, help='whether do lr flip aug'
 parser.add_argument('--threshold', default=1.24, type=float, help='ver dist threshold')
 parser.add_argument('--data_path', default='/content/data/')
 parser.add_argument('--embedding_folder', default='/content/embedding/')
+parser.add_argument('--batch_size', type=int, default=128)
 args = parser.parse_args()
 
 a = FaceModel(args)
 
-features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train.csv')
+features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train.csv', batch_size=args.batch_size)
 print(features.shape, labels.shape)
 np.save(args.embedding_folder + 'features_train', features)
 np.save(args.embedding_folder + 'labels_train', labels)
@@ -187,7 +190,7 @@ del features
 del labels
 
 
-features, file_names = a.get_features_test(args.data_path + 'test/')
+features, file_names = a.get_features_test(args.data_path + 'test/', batch_size=args.batch_size)
 print(features.shape, len(file_names))
 np.save(args.embedding_folder + 'features_test', features)
 with open(args.embedding_folder + 'file_names_test.txt', 'w') as f:
