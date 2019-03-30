@@ -216,3 +216,4 @@ a = FaceModel(args)
 #
 # del features, file_names
 features = a.get_features_from_npy('/content/data/imgs_gen.npy', batch_size=args.batch_size)
+np.save('features_gen', features)
