@@ -133,6 +133,23 @@ class FaceModel:
         labels = np.array(labels)
         return features, labels
 
+    def get_features_from_npy(self, file_path, batch_size=64):
+        array = np.load(file_path)
+        print(array.shape)
+        n_batch = int(len(array) / batch_size)
+        if len(array) % batch_size != 0:
+            n_batch += 1
+        features = None
+        for i in range(n_batch):
+            x_batch = array[i * batch_size: (i + 1) * batch_size]
+            feature_batch = self.get_features(x_batch)
+            if features is None:
+                features = feature_batch
+            else:
+                features = np.concatenate((features, feature_batch), axis=0)
+
+        return features
+
     def get_features_test(self, folder_image, batch_size=64):
         test_paths = glob.glob(folder_image + '*.png')
         images = []
@@ -182,17 +199,20 @@ args = parser.parse_args()
 
 a = FaceModel(args)
 
-features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train.csv', batch_size=args.batch_size)
-print(features.shape, labels.shape)
-np.save(args.embedding_folder + 'features_train', features)
-np.save(args.embedding_folder + 'labels_train', labels)
-del features
-del labels
-
-
-features, file_names = a.get_features_test(args.data_path + 'test/', batch_size=args.batch_size)
-print(features.shape, len(file_names))
-np.save(args.embedding_folder + 'features_test', features)
-with open(args.embedding_folder + 'file_names_test.txt', 'w') as f:
-    for file_name in file_names:
-        f.write('{}\n'.format(file_name))
+# features, labels = a.get_features_train(args.data_path + 'train/', args.data_path + 'train.csv', batch_size=args.batch_size)
+# print(features.shape, labels.shape)
+# np.save(args.embedding_folder + 'features_train', features)
+# np.save(args.embedding_folder + 'labels_train', labels)
+# del features
+# del labels
+#
+#
+# features, file_names = a.get_features_test(args.data_path + 'test/', batch_size=args.batch_size)
+# print(features.shape, len(file_names))
+# np.save(args.embedding_folder + 'features_test', features)
+# with open(args.embedding_folder + 'file_names_test.txt', 'w') as f:
+#     for file_name in file_names:
+#         f.write('{}\n'.format(file_name))
+#
+# del features, file_names
+features = a.get_features_from_npy('../../data/vn_celeb_face_recognition/imgs_gen.npy', batch_size=args.batch_size)
