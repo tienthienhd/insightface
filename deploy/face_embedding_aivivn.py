@@ -215,4 +215,4 @@ a = FaceModel(args)
 #         f.write('{}\n'.format(file_name))
 #
 # del features, file_names
-features = a.get_features_from_npy('../../data/vn_celeb_face_recognition/imgs_gen.npy', batch_size=args.batch_size)
+features = a.get_features_from_npy('/content/data/imgs_gen.npy', batch_size=args.batch_size)
